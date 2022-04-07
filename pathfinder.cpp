@@ -23,23 +23,23 @@ std::vector<ImagePos> actions(Image<Pixel>& image, ImagePos currentState);
 bool containsPosition(std::vector<ImagePos>& array, ImagePos pixel);
 ImagePos breadth_first_search(Image<Pixel>& image);
 Image<Pixel> loadImage(std::string argv);
+bool inBounds(Image<Pixel>& image, ImagePos pixel);
 
 int main(int argc, char *argv[])
 {
+
   //Try to run it all
-  try{
     //Load Image
     Image<Pixel> image = loadImage(argv[1]);
     breadth_first_search(image);
     writeToFile(image, argv[2]);
-  }
-  //Catch one of the many errors
+/*  //Catch one of the many errors
   catch(const std::exception & ex){
     std::cout << ex.what() << std::endl;
     //Return failure
     return EXIT_FAILURE;
   }
-  return EXIT_SUCCESS;
+  return EXIT_SUCCESS;*/
 }
 
 
@@ -47,6 +47,11 @@ int main(int argc, char *argv[])
 ImagePos breadth_first_search(Image<Pixel>& image){
   //Find start pixels
   ImagePos start = initial(image);
+
+  //Check if start is goal
+  if(goal(image, start)){
+    return start;
+  }
 
   //Create frontier and explored arrays
   Deque<ImagePos> frontier;
@@ -56,7 +61,12 @@ ImagePos breadth_first_search(Image<Pixel>& image){
   while(true){
     //Check that frontier is not empty
     if(frontier.isEmpty()){
-      throw "No Solution Found";
+      ImagePos r;
+      r.x=0;
+      r.y=0;
+      std::cout << "No solution found\n";
+      return r;
+      //throw "No Solution Found";
     }
 
     //Pop top from frontier
@@ -133,17 +143,15 @@ ImagePos initial(Image<Pixel>& image){
   if(starts.size()!=1){
     throw "Error";
   }
-  return starts[1];
+  return starts[0];
 }
 
 //Returns true if we found the goal
 bool goal(Image<Pixel>& image, ImagePos point){
   //Check if on border
   if(
-    (point.x == 0               & point.y == 0               ) ||
-    (point.x == image.width()-1 & point.y == 0               ) ||
-    (point.x == 0               & point.y == image.height()-1) ||
-    (point.x == image.width()-1 & point.y == image.height()-1)
+    point.x == 0 || point.y ==0 ||
+    point.x == image.width()-1 || point.y == image.height()
   ){
     //Draw green square
     image(point.x, point.y) = MAZE_END;
@@ -159,16 +167,25 @@ std::vector<ImagePos> actions(Image<Pixel>& image, ImagePos currentState){
   std::vector<ImagePos> steps;
 
   //For each step, determine if valid and add to steps
-  for(unsigned short int i=0;i<2;i++){
-    for(unsigned short int j=0;j<2;j++){
-      //Make next step
-      ImagePos nextstep;
-      nextstep.x = currentState.x + i;
-      nextstep.y = currentState.y + j;
-      //Determine if valid
-      if(image(nextstep.x, nextstep.y)==MAZE_AIR){
-        steps.push_back(nextstep);
-      }
+  for(short int i=-1;i<2;i=i+1){
+    //Make next step
+    ImagePos nextstep;
+    nextstep.x = currentState.x+i;
+    nextstep.y = currentState.y;
+    //Determine if valid
+    if(image(nextstep.x, nextstep.y)==MAZE_AIR){
+      steps.push_back(nextstep);
+    }
+  }
+  //For each step, determine if valid and add to steps
+  for(short int i=-1;i<2;i=i+1){
+    //Make next step
+    ImagePos nextstep;
+    nextstep.x = currentState.x;
+    nextstep.y = currentState.y+i;
+    //Determine if valid
+    if(image(nextstep.x, nextstep.y)==MAZE_AIR){
+      steps.push_back(nextstep);
     }
   }
   return steps;
