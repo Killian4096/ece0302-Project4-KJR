@@ -1,0 +1,11 @@
+/home/killian/ece0302-KR/ece0302-Project4-KJR/CMakeFiles/rebuild_cache.dir
+/home/killian/ece0302-KR/ece0302-Project4-KJR/CMakeFiles/edit_cache.dir
+/home/killian/ece0302-KR/ece0302-Project4-KJR/CMakeFiles/test.dir
+/home/killian/ece0302-KR/ece0302-Project4-KJR/CMakeFiles/submission.dir
+/home/killian/ece0302-KR/ece0302-Project4-KJR/CMakeFiles/pathfinder.dir
+/home/killian/ece0302-KR/ece0302-Project4-KJR/CMakeFiles/student-tests.dir
+/home/killian/ece0302-KR/ece0302-Project4-KJR/CMakeFiles/compare.dir
+/home/killian/ece0302-KR/ece0302-Project4-KJR/lib/CMakeFiles/rebuild_cache.dir
+/home/killian/ece0302-KR/ece0302-Project4-KJR/lib/CMakeFiles/edit_cache.dir
+/home/killian/ece0302-KR/ece0302-Project4-KJR/lib/CMakeFiles/test.dir
+/home/killian/ece0302-KR/ece0302-Project4-KJR/lib/CMakeFiles/image.dir
