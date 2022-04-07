@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/killian/ece0302-KR/ece0302-Project4-KJR/compare.cpp
+iostream
+-
+image.h
+/home/killian/ece0302-KR/ece0302-Project4-KJR/image.h
+
+lib/image.h
+algorithm
+-
+cstdint
+-
+stdexcept
+-
+string
+-
+vector
+-
+
