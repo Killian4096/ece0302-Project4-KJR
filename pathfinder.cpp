@@ -192,7 +192,7 @@ std::vector<ImagePos> actions(Image<Pixel>& image, ImagePos currentState){
 }
 
 
-//Function to check if item in vector
+//Function to check if item is in vector
 bool containsPosition(std::vector<ImagePos>& array, ImagePos pixel){
   for(std::size_t i=0;i<array.size();i++){
     if(array[i].x==pixel.x && array[i].y==pixel.y){
