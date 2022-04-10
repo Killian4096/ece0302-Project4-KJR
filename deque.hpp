@@ -35,7 +35,7 @@ class Deque: public AbstractDeque<T>{
     Node<T> *frontNode;
     Node<T> *backNode;
 
-    void copyList(const Node<T>& n);
+    void copyDeque(const Deque<T>& d);
   
 };
 

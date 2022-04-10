@@ -20,7 +20,8 @@ struct ImagePos{
 ImagePos initial(Image<Pixel>& image);
 bool goal(Image<Pixel>& image, ImagePos point);
 std::vector<ImagePos> actions(Image<Pixel>& image, ImagePos currentState);
-bool containsPosition(std::vector<ImagePos>& array, ImagePos pixel);
+bool containsPosition(const std::vector<ImagePos>& array, const ImagePos pixel);
+bool containsPosition(const Deque<ImagePos>& array, const ImagePos pixel);
 ImagePos breadth_first_search(Image<Pixel>& image);
 Image<Pixel> loadImage(std::string argv);
 bool inBounds(Image<Pixel>& image, ImagePos pixel);
@@ -28,18 +29,19 @@ bool inBounds(Image<Pixel>& image, ImagePos pixel);
 int main(int argc, char *argv[])
 {
 
-  //Try to run it all
+  try{
     //Load Image
     Image<Pixel> image = loadImage(argv[1]);
     breadth_first_search(image);
     writeToFile(image, argv[2]);
-/*  //Catch one of the many errors
+  }
+  //Catch one of the many errors
   catch(const std::exception & ex){
     std::cout << ex.what() << std::endl;
     //Return failure
     return EXIT_FAILURE;
   }
-  return EXIT_SUCCESS;*/
+  return EXIT_SUCCESS;
 }
 
 
@@ -82,7 +84,7 @@ ImagePos breadth_first_search(Image<Pixel>& image){
     //Iterate over each next action
     for(intmax_t i=0;i<next_actions.size();i++){
       //Check if not in explored
-      if(!(containsPosition(explored, next_actions[i]))){
+      if( !(containsPosition(explored, next_actions[i])) && !(containsPosition(frontier, next_actions[i])) ){
         //if goal, we found it
         if(goal(image, next_actions[i])){
           return next_actions[i];
@@ -151,7 +153,7 @@ bool goal(Image<Pixel>& image, ImagePos point){
   //Check if on border
   if(
     point.x == 0 || point.y ==0 ||
-    point.x == image.width()-1 || point.y == image.height()
+    point.x == image.width()-1 || point.y == image.height()-1
   ){
     //Draw green square
     image(point.x, point.y) = MAZE_END;
@@ -167,7 +169,7 @@ std::vector<ImagePos> actions(Image<Pixel>& image, ImagePos currentState){
   std::vector<ImagePos> steps;
 
   //For each step, determine if valid and add to steps
-  for(short int i=-1;i<2;i=i+1){
+  for(short int i=-1;i<2;i=i+2){
     //Make next step
     ImagePos nextstep;
     nextstep.x = currentState.x+i;
@@ -178,7 +180,7 @@ std::vector<ImagePos> actions(Image<Pixel>& image, ImagePos currentState){
     }
   }
   //For each step, determine if valid and add to steps
-  for(short int i=-1;i<2;i=i+1){
+  for(short int i=-1;i<2;i=i+2){
     //Make next step
     ImagePos nextstep;
     nextstep.x = currentState.x;
@@ -193,11 +195,25 @@ std::vector<ImagePos> actions(Image<Pixel>& image, ImagePos currentState){
 
 
 //Function to check if item is in vector
-bool containsPosition(std::vector<ImagePos>& array, ImagePos pixel){
+bool containsPosition(const std::vector<ImagePos>& array, const ImagePos pixel){
   for(std::size_t i=0;i<array.size();i++){
     if(array[i].x==pixel.x && array[i].y==pixel.y){
       return true;
     }
+  }
+  return false;
+}
+
+//Function to check if item is in deque
+bool containsPosition(const Deque<ImagePos>& array, const ImagePos pixel){
+  //Copy deque
+  Deque<ImagePos> buffer;
+  buffer = array;
+  while(!(buffer.isEmpty())){
+    if(buffer.back().x==pixel.x and buffer.back().y==pixel.y){
+      return true;
+    }
+    buffer.popBack();
   }
   return false;
 }

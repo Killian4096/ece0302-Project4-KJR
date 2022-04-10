@@ -10,13 +10,14 @@ Deque<T>::Deque(){
 //Copy Contructor
 template <typename T>
 Deque<T>::Deque(Deque &d){
-    copyList(d->frontNode);
+    copyDeque(d);
 }
 
 //copy Assigment
 template <typename T>
 Deque<T>& Deque<T>::operator=(const Deque<T>& d){
-    copyList(d->frontNode);
+    copyDeque(d);
+    return *this;
 }
 
 //Destructor
@@ -151,16 +152,23 @@ T Deque<T>::back() const{
 
 //Function to copy list
 template <typename T>
-void Deque<T>::copyList(const Node<T>& n){
+void Deque<T>::copyDeque(const Deque<T>& d){
     //If list is empty
-    if(n==nullptr){
+    if(d.isEmpty()){
         frontNode = nullptr;
         backNode = nullptr;
+        return;
     }
-    frontNode = n;
-    backNode = n;
+    Node<T>* traverseNode;
+    Node<T>* editNode;
+    frontNode = new Node<T>(d.frontNode->getItem());
+    traverseNode = d.frontNode;
+    editNode = frontNode;
     //Traverse list till end
-    while(backNode->getNext()!=nullptr){
-        backNode = backNode->getNext();
+    while(traverseNode->getNext()!=nullptr){
+        traverseNode = traverseNode->getNext();
+        editNode->setNext(new Node<T>(traverseNode->getItem()));
+        editNode = editNode->getNext();
     }
+    backNode = editNode;
 }

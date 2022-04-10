@@ -85,3 +85,23 @@ TEST_CASE( "Test2", "[deque]" ) {
     REQUIRE_THROWS(d.popBack());
 
 }
+
+TEST_CASE( "Test3", "[deque]" ) {
+    Deque<T> d;
+    d.pushBack(1);
+    REQUIRE(d.back()==1);
+    d.pushBack(2);
+    REQUIRE(d.back()==2);
+    d.pushBack(3);
+    REQUIRE(d.back()==3);
+    Deque<T> e;
+    e = d;
+    REQUIRE(e.back()==3);
+    e.popBack();
+    REQUIRE(e.back()==2);
+    e.popBack();
+    REQUIRE(e.back()==1);
+    e.popBack();
+    REQUIRE(e.isEmpty());
+
+}
